@@ -1,19 +1,41 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return view('home');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Website
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/news', [NewsController::class, 'index']);
 Route::get('/news/create', [NewsController::class, 'create']);
 Route::post('/news', [NewsController::class, 'store']);
 
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin', [DashboardController::class, 'index'])->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| Breeze
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/admin');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
