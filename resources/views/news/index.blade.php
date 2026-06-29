@@ -1,28 +1,70 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <title>Haberler</title>
+@extends('layouts.admin')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-100 p-10">
+@section('content')
 
-    <h1 class="text-4xl font-bold mb-6">
+<div class="flex justify-between items-center mb-8">
+
+    <h1 class="text-4xl font-bold">
         Haberler
     </h1>
 
-    @foreach($news as $item)
-        <div class="bg-white p-5 rounded-lg shadow mb-4">
-            <h2 class="text-2xl font-bold">
-                {{ $item->title }}
-            </h2>
+    <a href="/news/create"
+       class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700">
+        + Yeni Haber
+    </a>
 
-            <p class="mt-2">
-                {{ $item->content }}
-            </p>
-        </div>
-    @endforeach
+</div>
 
-</body>
-</html>
+<div class="bg-white rounded-xl shadow overflow-hidden">
+
+<table class="w-full">
+
+<thead class="bg-slate-800 text-white">
+
+<tr>
+
+<th class="p-4 text-left">ID</th>
+<th class="p-4 text-left">Başlık</th>
+<th class="p-4 text-left">İşlem</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+@foreach($news as $item)
+
+<tr class="border-b">
+
+<td class="p-4">
+{{ $item->id }}
+</td>
+
+<td class="p-4">
+{{ $item->title }}
+</td>
+
+<td class="p-4">
+
+<button class="bg-yellow-500 text-white px-3 py-1 rounded">
+Düzenle
+</button>
+
+<button class="bg-red-600 text-white px-3 py-1 rounded ml-2">
+Sil
+</button>
+
+</td>
+
+</tr>
+
+@endforeach
+
+</tbody>
+
+</table>
+
+</div>
+
+@endsection
