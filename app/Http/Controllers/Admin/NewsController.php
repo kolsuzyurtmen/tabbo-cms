@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class NewsController extends Controller
 {
     public function index()
@@ -23,15 +23,21 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-        ]);
+    'title' => 'required|max:255',
+    'content' => 'required',
+    'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+]);
+        $imagePath = null;
 
-        News::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'image' => null,
-        ]);
+if ($request->hasFile('image')) {
+    $imagePath = $request->file('image')->store('news', 'public');
+}
+
+News::create([
+    'title' => $request->title,
+    'content' => $request->content,
+    'image' => $imagePath,
+]);
 
         return redirect('/admin/news')
             ->with('success', 'Haber başarıyla eklendi.');
@@ -42,21 +48,33 @@ class NewsController extends Controller
         return view('admin.news.edit', compact('news'));
     }
 
-    public function update(Request $request, News $news)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-        ]);
+   public function update(Request $request, News $news)
+{
+    $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        $news->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+    $news->title = $request->title;
+    $news->content = $request->content;
 
-        return redirect('/admin/news')
-            ->with('success', 'Haber güncellendi.');
+    if ($request->hasFile('image')) {
+
+        // Eski resmi sil
+        if ($news->image) {
+            Storage::disk('public')->delete($news->image);
+        }
+
+        // Yeni resmi yükle
+        $news->image = $request->file('image')->store('news', 'public');
     }
+
+    $news->save();
+
+    return redirect('/admin/news')
+        ->with('success', 'Haber güncellendi.');
+}
 
     public function destroy(News $news)
     {

@@ -12,7 +12,7 @@
     </div>
 @endif
 
-<form action="/admin/news" method="POST" class="bg-white p-6 rounded-xl shadow">
+<form action="/admin/news" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow">
 
     @csrf
 
@@ -39,7 +39,19 @@
             class="w-full border rounded p-3"
             required></textarea>
     </div>
+<div class="mb-4">
 
+    <label class="block mb-2 font-bold">
+        Haber Görseli
+    </label>
+
+    <input
+        type="file"
+        name="image"
+        class="w-full border rounded p-3"
+        accept="image/*">
+
+</div>
     <button
         type="submit"
         class="bg-blue-600 text-white px-6 py-3 rounded">

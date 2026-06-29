@@ -16,6 +16,7 @@
                 <th class="text-left p-3">İsim</th>
                 <th class="text-left p-3">E-posta</th>
                 <th class="text-left p-3">Kayıt Tarihi</th>
+                <th class="text-left p-3">İşlem</th>
             </tr>
         </thead>
 
@@ -32,7 +33,30 @@
                 <td class="p-3">{{ $user->email }}</td>
 
                 <td class="p-3">{{ $user->created_at->format('d.m.Y') }}</td>
+<td class="p-3 flex gap-2">
 
+    <a href="/admin/users/{{ $user->id }}/edit"
+       class="bg-yellow-500 text-white px-3 py-2 rounded">
+        Düzenle
+    </a>
+
+    <form action="/admin/users/{{ $user->id }}" method="POST">
+
+        @csrf
+        @method('DELETE')
+
+        <button
+            type="submit"
+            onclick="return confirm('Bu kullanıcıyı silmek istediğine emin misin?')"
+            class="bg-red-600 text-white px-3 py-2 rounded">
+
+            Sil
+
+        </button>
+
+    </form>
+
+</td>
             </tr>
 
         @endforeach

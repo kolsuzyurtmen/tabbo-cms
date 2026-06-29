@@ -12,6 +12,7 @@
 
         <thead>
             <tr class="border-b">
+                <th class="text-left p-3">Resim</th>
                 <th class="text-left p-3">ID</th>
                 <th class="text-left p-3">İşlem</th>
                 <th class="text-left p-3">Başlık</th>
@@ -22,37 +23,49 @@
 
         @foreach($news as $item)
 
-            <tr class="border-b">
+           <tr class="border-b">
 
-                <td class="p-3">{{ $item->id }}</td>
+    <td class="p-3">
+        @if($item->image)
+            <img
+                src="{{ asset('storage/' . $item->image) }}"
+                alt="Haber Resmi"
+                class="w-20 h-20 object-cover rounded">
+        @else
+            <span class="text-gray-400">Resim Yok</span>
+        @endif
+    </td>
 
-                <td class="p-3">{{ $item->title }}</td>
-<td class="p-3 flex gap-2">
+    <td class="p-3">{{ $item->id }}</td>
 
-    <a href="/admin/news/{{ $item->id }}/edit"
-       class="bg-yellow-500 text-white px-3 py-2 rounded">
+    <td class="p-3">{{ $item->title }}</td>
 
-        Düzenle
+    <td class="p-3 flex gap-2">
 
-    </a>
+        <a href="/admin/news/{{ $item->id }}/edit"
+           class="bg-yellow-500 text-white px-3 py-2 rounded">
+            Düzenle
+        </a>
 
-    <form action="/admin/news/{{ $item->id }}" method="POST">
+        <form action="/admin/news/{{ $item->id }}" method="POST">
 
-        @csrf
-        @method('DELETE')
+            @csrf
+            @method('DELETE')
 
-        <button
-            onclick="return confirm('Bu haberi silmek istediğine emin misin?')"
-            class="bg-red-600 text-white px-3 py-2 rounded">
+            <button
+                type="submit"
+                onclick="return confirm('Bu haberi silmek istediğine emin misin?')"
+                class="bg-red-600 text-white px-3 py-2 rounded">
 
-            Sil
+                Sil
 
-        </button>
+            </button>
 
-    </form>
+        </form>
 
-</td>
-            </tr>
+    </td>
+
+</tr>
 
         @endforeach
 

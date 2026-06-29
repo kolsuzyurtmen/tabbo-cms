@@ -54,6 +54,13 @@ Route::get('/admin/news/{news}/edit', [AdminNewsController::class, 'edit'])->mid
 Route::put('/admin/news/{news}', [AdminNewsController::class, 'update'])->middleware('auth');
 Route::delete('/admin/news/{news}', [AdminNewsController::class, 'destroy'])->middleware('auth');
 Route::get('/admin/users', [UserController::class, 'index'])->middleware('auth');
+Route::get('/admin/users/{user}/edit', [UserController::class, 'edit'])->middleware('auth');
+Route::put('/admin/users/{user}', [UserController::class, 'update'])->middleware('auth');
+Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->middleware('auth');
+
+
+
+
 });
 
 require __DIR__.'/auth.php';

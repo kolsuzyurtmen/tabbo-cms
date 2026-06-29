@@ -8,11 +8,14 @@ use App\Models\User;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        return view('admin.dashboard', [
-            'news' => News::count(),
-            'users' => User::count(),
-        ]);
-    }
+   public function index()
+{
+    return view('admin.dashboard', [
+        'news' => News::count(),
+        'users' => User::count(),
+
+        'lastNews' => News::latest()->first(),
+        'lastUser' => User::latest()->first(),
+    ]);
+}
 }
