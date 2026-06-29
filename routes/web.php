@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\UserController;
 Route::get('/', function () {
     return view('home');
 });
@@ -52,6 +53,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/admin/news/{news}/edit', [AdminNewsController::class, 'edit'])->middleware('auth');
 Route::put('/admin/news/{news}', [AdminNewsController::class, 'update'])->middleware('auth');
 Route::delete('/admin/news/{news}', [AdminNewsController::class, 'destroy'])->middleware('auth');
+Route::get('/admin/users', [UserController::class, 'index'])->middleware('auth');
 });
 
 require __DIR__.'/auth.php';
